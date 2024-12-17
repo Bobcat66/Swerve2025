@@ -28,26 +28,27 @@ public final class Constants {
         public static class ModuleConstants {
             public static class Common {
                 public static class Drive {
-                    public final double CurrentLimit = 60;
-                    public final double VoltageCompensation = 12;
-                    public final double GearRatio = 1.0;
+                    public static final int CurrentLimit = 60;
+                    public static final double VoltageCompensation = 12;
+                    public static final double PositionConversionFactor = 1.0;
+                    public static final double VelocityConversionFactor = 1.0;
 
                     //PID constants
-                    public final double kP = 0.1;
-                    public final double kI = 0.0;
-                    public final double kD = 0.0;
+                    public static final double kP = 0.1;
+                    public static final double kI = 0.0;
+                    public static final double kD = 0.0;
                 }
     
                 public static class Turn {
-                    public final double CurrentLimit = 60;
-                    public final double VoltageCompensation = 12;
-                    public final double PositionConversionFactor = 1.0;
-                    public final double VelocityConversionFactor = 1.0;
+                    public static final int CurrentLimit = 60;
+                    public static final double VoltageCompensation = 12;
+                    public static final double PositionConversionFactor = 1.0;
+                    public static final double VelocityConversionFactor = 1.0;
 
                     //PID constants
-                    public final double kP = 0.1;
-                    public final double kI = 0.0;
-                    public final double kD = 0.0;
+                    public static double kP = 0.1;
+                    public static final double kI = 0.0;
+                    public static final double kD = 0.0;
                 }
             }
             public static enum ModuleConfig {
