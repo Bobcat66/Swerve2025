@@ -173,7 +173,7 @@ public class ModuleIOHardware implements ModuleIO {
 
     @Override
     public void setTurnPosition(double positionRots, double FFVolts){
-        DrivePID.setReference(
+        TurnPID.setReference(
             positionRots,
             ControlType.kPosition,
             0,
