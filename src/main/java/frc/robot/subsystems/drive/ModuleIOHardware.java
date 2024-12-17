@@ -6,11 +6,13 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkClosedLoopController.ArbFFUnits;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ControlType;
 import frc.robot.utils.SparkSignalUtils;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
@@ -147,8 +149,36 @@ public class ModuleIOHardware implements ModuleIO {
         } finally {
             DriveSubsystem.odometryLock.unlock();
         }
-        
+    }
 
+    @Override
+    public void setDriveVolts(double volts){
+        m_driveMotor.setVoltage(volts);
+    }
+
+    @Override
+    public void setTurnVolts(double volts){
+        m_turnMotor.setVoltage(volts);
+    }
+
+    @Override
+    public void setDriveVelocity(double velocityMetersPerSec, double FFVolts){
+        DrivePID.setReference(
+            velocityMetersPerSec,
+            ControlType.kVelocity,
+            0,
+            FFVolts,
+            ArbFFUnits.kVoltage);
+    }
+
+    @Override
+    public void setTurnPosition(double positionRots, double FFVolts){
+        DrivePID.setReference(
+            positionRots,
+            ControlType.kPosition,
+            0,
+            FFVolts,
+            ArbFFUnits.kVoltage);
     }
     
 }

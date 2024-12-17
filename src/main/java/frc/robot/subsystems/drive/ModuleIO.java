@@ -29,7 +29,7 @@ public interface ModuleIO {
 
     public default void setTurnVolts(double volts) {}
 
-    public default void setDriveVelocity(double velocityMetersPerSec) {}
+    public default void setDriveVelocity(double velocityMetersPerSec, double FFVolts) {}
 
-    public default void setTurnPosition(double positionRads) {}
+    public default void setTurnPosition(double positionRots, double FFVolts) {}
 }
