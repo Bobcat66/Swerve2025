@@ -12,6 +12,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import frc.robot.utils.SparkSignalUtils;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import java.util.Queue;
 import static frc.robot.Constants.DriveConstants.odometryFrequencyHz;
@@ -120,6 +121,34 @@ public class ModuleIOHardware implements ModuleIO {
         OdometryThread.getInstance().registerErrorSignal(SparkSignalUtils.getSparkMaxErrorSignal(m_driveMotor));
         turnPositionQueue = OdometryThread.getInstance().registerSignal(SparkSignalUtils.getSparkMaxPositionSignal(m_turnMotor));
         OdometryThread.getInstance().registerErrorSignal(SparkSignalUtils.getSparkMaxErrorSignal(m_turnMotor));
+    }
+
+    @Override
+    public void updateInputs(ModuleIOInputs inputs){
+        DriveSubsystem.odometryLock.lock();
+        try {
+            inputs.drivePositionMeters = DriveRelEncoder.getPosition();
+            inputs.driveVelocityMetersPerSec = DriveRelEncoder.getVelocity();
+            inputs.driveAppliedVolts = m_driveMotor.getBusVoltage() * m_driveMotor.getAppliedOutput();
+            inputs.driveCurrentAmps = m_driveMotor.getOutputCurrent();
+        
+            inputs.turnAbsolutePosition = new Rotation2d(turnAbsolutePosition.getValue());
+            inputs.turnPosition = Rotation2d.fromRotations(TurnRelEncoder.getPosition());
+            inputs.turnVelocityRPM = TurnRelEncoder.getVelocity();
+            inputs.turnAppliedVolts = m_turnMotor.getBusVoltage() * m_turnMotor.getAppliedOutput();
+            inputs.driveCurrentAmps = m_turnMotor.getOutputCurrent();
+
+            inputs.odometryTimestamps = timestampQueue.stream().mapToDouble((Long value) -> value/1e6).toArray();
+            inputs.odometryDrivePositionsMeters = drivePositionQueue.stream().mapToDouble((Double value) -> value).toArray();
+            inputs.odometryTurnPositions = turnPositionQueue.stream().map((Double value) -> Rotation2d.fromRotations(value)).toArray(Rotation2d[]::new);
+            timestampQueue.clear();
+            drivePositionQueue.clear();
+            turnPositionQueue.clear();
+        } finally {
+            DriveSubsystem.odometryLock.unlock();
+        }
+        
+
     }
     
 }

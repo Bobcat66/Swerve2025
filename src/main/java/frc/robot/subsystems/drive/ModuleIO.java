@@ -17,7 +17,6 @@ public interface ModuleIO {
         public double turnVelocityRPM = 0.0;
         public double turnAppliedVolts = 0.0;
         public double turnCurrentAmps = 0.0;
-        public double turnSetpoint = 0.0;
 
         public double[] odometryTimestamps = new double[] {};
         public double[] odometryDrivePositionsMeters = new double[] {};

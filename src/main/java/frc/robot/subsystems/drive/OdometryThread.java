@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.RobotController;
 
 import static frc.robot.Constants.DriveConstants.odometryFrequencyHz;
 
-/**An odometry thread designed to work with SparkMax motor controllers */
+/**An odometry thread designed to work with SparkMax motor controllers. This is a singleton class, only one instance exists at any given time*/
 public class OdometryThread {
     private final ArrayList<DoubleSupplier> signals = new ArrayList<>();
     private final ArrayList<BooleanSupplier> errorSignals = new ArrayList<>();
