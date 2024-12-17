@@ -25,6 +25,9 @@ public final class Constants {
 
     public static class DriveConstants {
         public static final int odometryFrequencyHz = 250;
+        public static class GyroConstants {
+            public static final int kGyroPort = -1;
+        }
         public static class ModuleConstants {
             public static class Common {
                 public static class Drive {

@@ -13,7 +13,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ControlType;
-import frc.robot.utils.SparkSignalUtils;
+import frc.robot.utils.SignalUtils;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import java.util.Queue;
@@ -119,10 +119,10 @@ public class ModuleIOHardware implements ModuleIO {
         DriveRelEncoder.setPosition(0.0);
         
         timestampQueue = OdometryThread.getInstance().makeTimestampQueue();
-        drivePositionQueue = OdometryThread.getInstance().registerSignal(SparkSignalUtils.getSparkMaxPositionSignal(m_driveMotor));
-        OdometryThread.getInstance().registerErrorSignal(SparkSignalUtils.getSparkMaxErrorSignal(m_driveMotor));
-        turnPositionQueue = OdometryThread.getInstance().registerSignal(SparkSignalUtils.getSparkMaxPositionSignal(m_turnMotor));
-        OdometryThread.getInstance().registerErrorSignal(SparkSignalUtils.getSparkMaxErrorSignal(m_turnMotor));
+        drivePositionQueue = OdometryThread.getInstance().registerSignal(SignalUtils.getSparkMaxPositionSignal(m_driveMotor));
+        OdometryThread.getInstance().registerErrorSignal(SignalUtils.getSparkMaxErrorSignal(m_driveMotor));
+        turnPositionQueue = OdometryThread.getInstance().registerSignal(SignalUtils.getSparkMaxPositionSignal(m_turnMotor));
+        OdometryThread.getInstance().registerErrorSignal(SignalUtils.getSparkMaxErrorSignal(m_turnMotor));
     }
 
     @Override
