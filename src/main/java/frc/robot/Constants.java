@@ -45,7 +45,7 @@ public final class Constants {
         };
 
         public static class GyroConstants {
-            public static final int kGyroPort = -1;
+            public static final int kGyroPort = 9;
         }
 
         public static class AutoConstants {
