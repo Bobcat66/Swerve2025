@@ -23,6 +23,7 @@ import com.pathplanner.lib.util.DriveFeedforwards;
 import frc.robot.Constants.DriveConstants.AutoConstants.PIDControl;
 import static frc.robot.Constants.DriveConstants.moduleTranslations;
 import static frc.robot.Constants.DriveConstants.ModuleConstants.Common.Drive.MaxModuleSpeed;
+import static frc.robot.Constants.DriveConstants.AutoConstants.ppConfig;
 
 public class DriveSubsystem extends SubsystemBase {
     static final Lock odometryLock = new ReentrantLock();
@@ -55,8 +56,6 @@ public class DriveSubsystem extends SubsystemBase {
         modules[3] = new Module(RRModuleIO, "RearRight");
 
         OdometryThread.getInstance().start();
-
-        RobotConfig ppConfig = RobotConfig.fromGUISettings();
 
         AutoBuilder.configure(
             this::getPose,

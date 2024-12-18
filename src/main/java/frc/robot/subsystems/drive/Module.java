@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Common.Drive;
-import frc.robot.subsystems.Drive.ModuleIOInputsAutoLogged;
 
 public class Module {
     private final ModuleIO io;

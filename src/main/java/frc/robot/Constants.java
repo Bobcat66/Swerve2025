@@ -4,7 +4,11 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.RobotConfig;
+
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.system.plant.DCMotor;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -29,6 +33,7 @@ public final class Constants {
         public static final int odometryFrequencyHz = 250;
         public static final double wheelBase = 0.5; //Meters
         public static final double trackWidth = 0.5; //Meters
+        public static final double wheelRadius = 0.01; //Meters
         public static final Translation2d[] moduleTranslations = new Translation2d[] {
             new Translation2d(trackWidth / 2.0, wheelBase / 2.0),
             new Translation2d(trackWidth / 2.0, -wheelBase / 2.0),
@@ -41,6 +46,20 @@ public final class Constants {
         }
 
         public static class AutoConstants {
+            public static final RobotConfig ppConfig = new RobotConfig(
+                10.0,
+                1.0,
+                new ModuleConfig(
+                    ModuleConstants.Common.Drive.WheelRadius,
+                    ModuleConstants.Common.Drive.MaxModuleSpeed, 
+                    ModuleConstants.Common.Drive.WheelCOF,
+                    DCMotor.getNEO(1),
+                    ModuleConstants.Common.Drive.CurrentLimit,
+                    1
+                ),
+                wheelBase,
+                trackWidth
+            );
             public static class PIDControl {
                 public static class Trans {
                     public static final double kP = 5.0;
@@ -63,6 +82,8 @@ public final class Constants {
                     public static final double PositionConversionFactor = 1.0;
                     public static final double VelocityConversionFactor = 1.0;
                     public static final double MaxModuleSpeed = 14.0; //Maximum attainable module speed
+                    public static final double WheelRadius = 0.5; //Meters
+                    public static final double WheelCOF = 0.1; //Coefficient of friction
 
                     //PID constants
                     public static final double kP = 0.1;
