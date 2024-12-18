@@ -90,12 +90,12 @@ public final class Constants {
                     public static final double VelocityConversionFactor = PositionConversionFactor/60; //Units: Meters per second
 
                     //PID constants
-                    public static final double kP = 0.1;
+                    public static final double kP = 0.02;
                     public static final double kI = 0.0;
-                    public static final double kD = 0.0;
+                    public static final double kD = 0.012;
 
                     //Feedforward constants
-                    public static final double kV = 0.0;
+                    public static final double kV = 2.78;
                     public static final double kS = 0.0;
                     public static final double kA = 0.0;
                 }
@@ -108,7 +108,7 @@ public final class Constants {
                     public static final double VelocityConversionFactor = PositionConversionFactor; //Units: RPM
 
                     //PID constants
-                    public static double kP = 0.1;
+                    public static double kP = 0.3;
                     public static final double kI = 0.0;
                     public static final double kD = 0.0;
                 }
