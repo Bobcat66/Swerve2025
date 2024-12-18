@@ -35,7 +35,7 @@ public class Module {
         state.optimize(inputs.turnPosition);
         io.setDriveVelocity(
             state.speedMetersPerSecond, 
-            driveFFController.calculate(MetersPerSecond.of(state.speedMetersPerSecond)).in(Volts)
+            driveFFController.calculate(state.speedMetersPerSecond)
         );
         io.setTurnPosition(
             state.angle.getRotations(), 
