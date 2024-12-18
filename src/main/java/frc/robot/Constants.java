@@ -4,11 +4,14 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.DriveConstants.ModuleConstants.Common.Drive.WheelRadius;
+
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -31,9 +34,9 @@ public final class Constants {
 
     public static class DriveConstants {
         public static final int odometryFrequencyHz = 250;
-        public static final double wheelBase = 0.5; //Meters
-        public static final double trackWidth = 0.5; //Meters
-        public static final double wheelRadius = 0.01; //Meters
+        public static final double wheelBase = Units.inchesToMeters(27.5); //Meters
+        public static final double trackWidth = Units.inchesToMeters(19.5); //Meters
+        //public static final double wheelRadius = 0.0508; //Meters
         public static final Translation2d[] moduleTranslations = new Translation2d[] {
             new Translation2d(trackWidth / 2.0, wheelBase / 2.0),
             new Translation2d(trackWidth / 2.0, -wheelBase / 2.0),
@@ -78,12 +81,13 @@ public final class Constants {
             public static class Common {
                 public static class Drive {
                     public static final int CurrentLimit = 60;
+                    public static final double gearRatio = 6.75;
                     public static final double VoltageCompensation = 12;
-                    public static final double PositionConversionFactor = 1.0;
-                    public static final double VelocityConversionFactor = 1.0;
                     public static final double MaxModuleSpeed = 14.0; //Maximum attainable module speed
-                    public static final double WheelRadius = 0.5; //Meters
-                    public static final double WheelCOF = 0.1; //Coefficient of friction
+                    public static final double WheelRadius = Units.inchesToMeters(4); //Meters
+                    public static final double WheelCOF = 1.0; //Coefficient of friction
+                    public static final double PositionConversionFactor = 2 * WheelRadius*Math.PI/gearRatio; //Units: Meters
+                    public static final double VelocityConversionFactor = PositionConversionFactor/60; //Units: Meters per second
 
                     //PID constants
                     public static final double kP = 0.1;
@@ -99,8 +103,9 @@ public final class Constants {
                 public static class Turn {
                     public static final int CurrentLimit = 60;
                     public static final double VoltageCompensation = 12;
-                    public static final double PositionConversionFactor = 1.0;
-                    public static final double VelocityConversionFactor = 1.0;
+                    public static final double gearRatio = 12.8;
+                    public static final double PositionConversionFactor = 1/gearRatio; //Units: Rotations
+                    public static final double VelocityConversionFactor = PositionConversionFactor; //Units: RPM
 
                     //PID constants
                     public static double kP = 0.1;
@@ -110,10 +115,10 @@ public final class Constants {
             }
             public static enum ModuleConfig {
     
-                FrontLeft(1,11,21,0.0),
-                FrontRight(2,12,22,0.0),
-                RearLeft(3,13,23,0.0),
-                RearRight(4,14,24,0.0);
+                FrontLeft(1,11,21,-0.441162109375 +0.5),
+                FrontRight(2,12,22,-0.3984375 +0.5),
+                RearLeft(3,13,23,-0.525146484375 +0.5),
+                RearRight(4,14,24,-0.931396484375 +0.5);
     
                 public final int DrivePort;
                 public final int TurnPort;
