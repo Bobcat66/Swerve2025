@@ -127,28 +127,23 @@ public class ModuleIOHardware implements ModuleIO {
 
     @Override
     public void updateInputs(ModuleIOInputs inputs){
-        DriveSubsystem.odometryLock.lock();
-        try {
-            inputs.drivePositionMeters = DriveRelEncoder.getPosition();
-            inputs.driveVelocityMetersPerSec = DriveRelEncoder.getVelocity();
-            inputs.driveAppliedVolts = m_driveMotor.getBusVoltage() * m_driveMotor.getAppliedOutput();
-            inputs.driveCurrentAmps = m_driveMotor.getOutputCurrent();
+        inputs.drivePositionMeters = DriveRelEncoder.getPosition();
+        inputs.driveVelocityMetersPerSec = DriveRelEncoder.getVelocity();
+        inputs.driveAppliedVolts = m_driveMotor.getBusVoltage() * m_driveMotor.getAppliedOutput();
+        inputs.driveCurrentAmps = m_driveMotor.getOutputCurrent();
         
-            inputs.turnAbsolutePosition = new Rotation2d(turnAbsolutePosition.getValue());
-            inputs.turnPosition = Rotation2d.fromRotations(TurnRelEncoder.getPosition());
-            inputs.turnVelocityRPM = TurnRelEncoder.getVelocity();
-            inputs.turnAppliedVolts = m_turnMotor.getBusVoltage() * m_turnMotor.getAppliedOutput();
-            inputs.driveCurrentAmps = m_turnMotor.getOutputCurrent();
+        inputs.turnAbsolutePosition = new Rotation2d(turnAbsolutePosition.getValue());
+        inputs.turnPosition = Rotation2d.fromRotations(TurnRelEncoder.getPosition());
+        inputs.turnVelocityRPM = TurnRelEncoder.getVelocity();
+        inputs.turnAppliedVolts = m_turnMotor.getBusVoltage() * m_turnMotor.getAppliedOutput();
+        inputs.driveCurrentAmps = m_turnMotor.getOutputCurrent();
 
-            inputs.odometryTimestamps = timestampQueue.stream().mapToDouble((Long value) -> value/1e6).toArray();
-            inputs.odometryDrivePositionsMeters = drivePositionQueue.stream().mapToDouble((Double value) -> value).toArray();
-            inputs.odometryTurnPositions = turnPositionQueue.stream().map((Double value) -> Rotation2d.fromRotations(value)).toArray(Rotation2d[]::new);
-            timestampQueue.clear();
-            drivePositionQueue.clear();
-            turnPositionQueue.clear();
-        } finally {
-            DriveSubsystem.odometryLock.unlock();
-        }
+        inputs.odometryTimestamps = timestampQueue.stream().mapToDouble((Long value) -> value/1e6).toArray();
+        inputs.odometryDrivePositionsMeters = drivePositionQueue.stream().mapToDouble((Double value) -> value).toArray();
+        inputs.odometryTurnPositions = turnPositionQueue.stream().map((Double value) -> Rotation2d.fromRotations(value)).toArray(Rotation2d[]::new);
+        timestampQueue.clear();
+        drivePositionQueue.clear();
+        turnPositionQueue.clear();
     }
 
     @Override

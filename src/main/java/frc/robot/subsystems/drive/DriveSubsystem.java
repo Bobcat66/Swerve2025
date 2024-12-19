@@ -119,42 +119,47 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic(){
-        gyroIO.updateInputs(gyroInputs);
-        Logger.processInputs("Drive/Gyro", gyroInputs);
-        for (Module module : modules) {
-            module.periodic();
-        }
+        DriveSubsystem.odometryLock.lock();
+        try{
+            gyroIO.updateInputs(gyroInputs);
+            Logger.processInputs("Drive/Gyro", gyroInputs);
 
-        if (DriverStation.isDisabled()) {
             for (Module module : modules) {
-                module.stop();
+                module.periodic();
             }
-        }
 
-        //Update odometry
-        double[] sampleTimestamps = modules[0].getOdometryTimestamps();
-        int sampleCount = sampleTimestamps.length;
-        for (int i = 0; i < sampleCount; i++){
-            SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
-            SwerveModulePosition[] moduleDeltas = new SwerveModulePosition[4];
-            for (int modIndex = 0; modIndex < 4; modIndex++){
-                modulePositions[modIndex] = modules[modIndex].getOdometryModulePositions()[i];
-                moduleDeltas[modIndex] = new SwerveModulePosition(
-                    modulePositions[modIndex].distanceMeters - lastModulePositions[modIndex].distanceMeters,
-                    modulePositions[modIndex].angle);
-                lastModulePositions[modIndex] = modulePositions[modIndex];
+            if (DriverStation.isDisabled()) {
+                for (Module module : modules) {
+                    module.stop();
+                }
             }
-            if (gyroInputs.connected) {
-                // Use the real gyro angle
-                rawGyroRotation = gyroInputs.odometryYawPositions[i];
-            } else {
-                // Use the angle delta from the kinematics and module deltas
-                Twist2d twist = kinematics.toTwist2d(moduleDeltas);
-                rawGyroRotation = rawGyroRotation.plus(new Rotation2d(twist.dtheta));
-            }
-            poseEstimator.updateWithTime(sampleTimestamps[i],rawGyroRotation,modulePositions);
-        }
 
+            //Update odometry
+            double[] sampleTimestamps = modules[0].getOdometryTimestamps();
+            int sampleCount = sampleTimestamps.length;
+            for (int i = 0; i < sampleCount; i++){
+                SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
+                SwerveModulePosition[] moduleDeltas = new SwerveModulePosition[4];
+                for (int modIndex = 0; modIndex < 4; modIndex++){
+                    modulePositions[modIndex] = modules[modIndex].getOdometryModulePositions()[i];
+                    moduleDeltas[modIndex] = new SwerveModulePosition(
+                        modulePositions[modIndex].distanceMeters - lastModulePositions[modIndex].distanceMeters,
+                        modulePositions[modIndex].angle);
+                    lastModulePositions[modIndex] = modulePositions[modIndex];
+                }
+                if (gyroInputs.connected) {
+                    // Use the real gyro angle
+                    rawGyroRotation = gyroInputs.odometryYawPositions[i];
+                } else {
+                    // Use the angle delta from the kinematics and module deltas
+                    Twist2d twist = kinematics.toTwist2d(moduleDeltas);
+                    rawGyroRotation = rawGyroRotation.plus(new Rotation2d(twist.dtheta));
+                }
+                poseEstimator.updateWithTime(sampleTimestamps[i],rawGyroRotation,modulePositions);
+            }
+        } finally {
+            DriveSubsystem.odometryLock.unlock();
+        }
         rawGyroRotation = gyroInputs.yawPosition;
     }
 

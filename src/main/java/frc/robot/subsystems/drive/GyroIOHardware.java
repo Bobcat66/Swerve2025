@@ -35,17 +35,12 @@ public class GyroIOHardware implements GyroIO {
 
     @Override
     public void updateInputs(GyroIOInputs inputs){
-        DriveSubsystem.odometryLock.lock();
-        try {
-            inputs.connected = BaseStatusSignal.refreshAll(yaw,yawVelocity).equals(StatusCode.OK);
-            inputs.yawPosition = new Rotation2d(yaw.getValue());
-            inputs.yawVelocityDegPerSec = yawVelocity.getValue().in(DegreesPerSecond);
-            inputs.odometryYawTimestamps = yawTimestampQueue.stream().mapToDouble((Long value) -> value/1e6).toArray();
-            inputs.odometryYawPositions = yawPositionQueue.stream().map((Double value) -> Rotation2d.fromDegrees(value)).toArray(Rotation2d[]::new);
-            yawTimestampQueue.clear();
-            yawPositionQueue.clear();
-        } finally {
-            DriveSubsystem.odometryLock.unlock();
-        }
+        inputs.connected = BaseStatusSignal.refreshAll(yaw,yawVelocity).equals(StatusCode.OK);
+        inputs.yawPosition = new Rotation2d(yaw.getValue());
+        inputs.yawVelocityDegPerSec = yawVelocity.getValue().in(DegreesPerSecond);
+        inputs.odometryYawTimestamps = yawTimestampQueue.stream().mapToDouble((Long value) -> value/1e6).toArray();
+        inputs.odometryYawPositions = yawPositionQueue.stream().map((Double value) -> Rotation2d.fromDegrees(value)).toArray(Rotation2d[]::new);
+        yawTimestampQueue.clear();
+        yawPositionQueue.clear();
     }
 }

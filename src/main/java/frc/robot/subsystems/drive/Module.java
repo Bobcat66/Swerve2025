@@ -31,7 +31,7 @@ public class Module {
 
     /*Sets desired state in closed-loop mode */
     public void setDesiredState(SwerveModuleState state){
-        io.updateInputs(inputs); //Fetches latest data from IO layer
+        //io.updateInputs(inputs); //Fetches latest data from IO layer
         state.optimize(inputs.turnPosition);
         io.setDriveVelocity(
             state.speedMetersPerSecond, 
@@ -45,7 +45,7 @@ public class Module {
 
     /*Sets desired state with overridden Feedforward */
     public void setDesiredState(SwerveModuleState state, double driveFFVolts, double turnFFVolts){
-        io.updateInputs(inputs); //Fetches latest data from IO layer
+        //io.updateInputs(inputs); //Fetches latest data from IO layer
         state.optimize(inputs.turnPosition);
         io.setDriveVelocity(
             state.speedMetersPerSecond, 
@@ -78,7 +78,7 @@ public class Module {
         return odometryModulePositions;
     }
 
-    /*Must be manually called by DriveSubsystem */
+    /*Must be manually called by DriveSubsystem. WARNING: NOT THREAD-SAFE */
     public void periodic(){
         io.updateInputs(inputs);
         Logger.processInputs("Drive/" + ID, inputs);
