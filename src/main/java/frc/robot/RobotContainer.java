@@ -13,7 +13,7 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
-
+import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -61,10 +61,14 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
-
+    
+    m_drive.setDefaultCommand(new DriveClosedLoopTeleop(
+        () -> m_driverController.getLeftY(),
+        () -> m_driverController.getLeftX(), 
+        () -> m_driverController.getRightX(), m_drive));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.b().whileTrue(new PathPlannerAuto("ODTAUTO2"));
   }
 
   /**

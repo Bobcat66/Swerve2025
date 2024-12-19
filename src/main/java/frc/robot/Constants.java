@@ -50,7 +50,7 @@ public final class Constants {
 
         public static class AutoConstants {
             public static final RobotConfig ppConfig = new RobotConfig(
-                10.0,
+                100.0,
                 1.0,
                 new ModuleConfig(
                     ModuleConstants.Common.Drive.WheelRadius,
@@ -90,9 +90,9 @@ public final class Constants {
                     public static final double VelocityConversionFactor = PositionConversionFactor/60; //Units: Meters per second
 
                     //PID constants
-                    public static final double kP = 0.02;
-                    public static final double kI = 0.0;
-                    public static final double kD = 0.012;
+                    public static final double kP = 0.03;
+                    public static final double kI = 0.000;
+                    public static final double kD = 0.0012;
 
                     //Feedforward constants
                     public static final double kV = 2.78;
@@ -108,9 +108,9 @@ public final class Constants {
                     public static final double VelocityConversionFactor = PositionConversionFactor; //Units: RPM
 
                     //PID constants
-                    public static double kP = 0.3;
+                    public static double kP = 0.55;
                     public static final double kI = 0.0;
-                    public static final double kD = 0.0;
+                    public static final double kD = 0.0001;
                 }
             }
             public static enum ModuleConfig {
