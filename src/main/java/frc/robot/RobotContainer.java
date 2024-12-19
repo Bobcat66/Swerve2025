@@ -35,7 +35,8 @@ public class RobotContainer {
     new ModuleIOHardware(ModuleConfig.FrontLeft), 
     new ModuleIOHardware(ModuleConfig.FrontRight), 
     new ModuleIOHardware(ModuleConfig.RearLeft),
-    new ModuleIOHardware(ModuleConfig.RearRight
+    new ModuleIOHardware(ModuleConfig.RearRight)
+  );
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
