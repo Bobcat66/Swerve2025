@@ -34,8 +34,8 @@ public class RobotContainer {
     new GyroIOHardware(), 
     new ModuleIOHardware(ModuleConfig.FrontLeft), 
     new ModuleIOHardware(ModuleConfig.FrontRight), 
-    new ModuleIOHardware(ModuleConfig.RearLeft),
-    new ModuleIOHardware(ModuleConfig.RearRight)
+    new ModuleIOHardware(ModuleConfig.RearRight),
+    new ModuleIOHardware(ModuleConfig.RearLeft)
   );
 
   // Replace with CommandPS4Controller or CommandJoystick if needed

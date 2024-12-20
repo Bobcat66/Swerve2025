@@ -90,7 +90,7 @@ public final class Constants {
                     public static final double VelocityConversionFactor = PositionConversionFactor/60; //Units: Meters per second
 
                     //PID constants
-                    public static final double kP = 0.03;
+                    public static final double kP = 0.035;
                     public static final double kI = 0.000;
                     public static final double kD = 0.0012;
 
@@ -108,7 +108,7 @@ public final class Constants {
                     public static final double VelocityConversionFactor = PositionConversionFactor; //Units: RPM
 
                     //PID constants
-                    public static double kP = 0.55;
+                    public static double kP = 0.75;
                     public static final double kI = 0.0;
                     public static final double kD = 0.0001;
                 }
@@ -117,8 +117,8 @@ public final class Constants {
     
                 FrontLeft(1,11,21,-0.441162109375 +0.5),
                 FrontRight(2,12,22,-0.3984375 +0.5),
-                RearLeft(3,13,23,-0.525146484375 +0.5),
-                RearRight(4,14,24,-0.931396484375 +0.5);
+                RearLeft(3,13,23,-0.525146484375 ),
+                RearRight(4,14,24,-0.931396484375);
     
                 public final int DrivePort;
                 public final int TurnPort;
